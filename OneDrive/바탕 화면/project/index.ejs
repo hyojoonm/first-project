@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+
+<html>
+    <head>
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet"  href = "hyo.css" type ="text/css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <title>
+            <%= title %>
+        </title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+		<div class = "menu"> 
+			
+				<p class = "p2">내 얼굴은 도서관</p>
+				<p class = "p1"> 책을 누르시면 리뷰창으로 넘어가져요 </p>
+			</div>
+		</div>
+		<div class = "box"> 	
+			<div class ="profle">
+				<div class ="profleimg">
+					<img src="icon.png">
+				</div>
+				<div id="emotion_result" class = "emotion" ></div>
+			</div>
+			<div class ="book">
+				<div id="book_and_image" class ="booklist"></div>
+			</div>
+		</div>
+    </body>
+</html>
+
+<script type="text/javascript">
+    const SERVER = `http://15.164.11.11:3400`;
+    $(document).ready(function() {
+        getdata().then(([data]) => {
+            const per0 = data.Confidence0.substr(0, 7);
+            const per1 = data.Confidence1.substr(0, 7);
+            const per2 = data.Confidence2.substr(0, 7);
+            const per3 = data.Confidence3.substr(0, 7);
+            const gender = data.gender == 'Female' ? '여자' : '남자';
+            const age = data.lowage;
+            const type0 = `${getTitle(data.Type0)} : ${per0}`;
+            const type1 = `${getTitle(data.Type1)} : ${per1}`;
+            const type2 = `${getTitle(data.Type2)} : ${per2}`;
+            const type3 = `${getTitle(data.Type3)} : ${per3}`;
+
+            $('#emotion_result').html(`
+				
+					<p>성별 : ${gender}</p>
+					<p>나이 : ${age}</p>
+					<p>${type0}</p>
+					<p>${type1}</p>
+					<p>${type2}</p>
+					<p>${type3}</p>
+						
+					
+					<canvas id="mychart" ></canvas>
+            `);			
+        });
+
+        getBooks().then(data => {
+            let bookAndImage = '';
+            data.forEach(d => {
+                bookAndImage += `
+					<div id ="${d.No}" class ="booklist1">
+						<div class="bookimg">
+							
+                        <img src="${SERVER}/image/${d.No}"></img>
+						</div>
+						<div class ="bookinformaiton">
+                        <p>제목 : ${d.Name}</p>
+                        <p>작가 : ${d.Writer}</p>
+                        <p>단어 : ${d.Word}</p>
+                        <p>키워드 : ${d.Keyword}</p>
+						</div>
+					</div>
+                `;
+            });
+            $('#book_and_image').html(bookAndImage);
+        });
+    });
+
+    function getTitle(type) {
+        let title = '';
+        switch(type.replaceAll('"', '')) {
+            case 'CALM': title = '차분함'; break;
+            case 'ANGRY': title = '화남'; break;
+            case 'HAPPY': title = '행복함'; break;
+            case 'DISGUSTED': title = '역겨운'; break;
+            case 'SURPRISED': title = '놀람'; break;
+            case 'CONFUSED': title = '혼란스러운'; break;
+            case 'SAD': title = '슬픔'; break;
+            case 'FEAR': title = '두려움'; break;
+        }
+        return title;
+    }
+
+    async function getdata() {
+        const res = await fetch(`${SERVER}/getdata`);
+        return res.json();
+    }
+
+    async function getBooks() {
+        const books = [];
+        for (let i = 0; i < 4; i++) {
+            const book = await getBook();
+            books.push(book);
+        }
+        return books;
+    }
+
+    async function getBook() {
+        const res = await fetch(`${SERVER}/book`);
+        return res.json();
+    }	
+	
+	
+</script>
+<script>
+$(document).ready(function(){
+	var ctx = document.getElementById("mychart");
+	var lineChart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+      datasets: [
+        {
+          label: "Population (millions)",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [2478,5267,734,784,433]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Predicted world population (millions) in 2050'
+      }
+    }
+}
+)
+ } );
+</script>

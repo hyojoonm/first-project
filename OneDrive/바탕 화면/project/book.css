@@ -1,0 +1,74 @@
+@charset "utf-8";
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+*{margin: 0; padding: 0; border: 0; outline: 0; line-height: 1;}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+   margin: 0;
+   padding: 0;
+   border: 0;
+   font-size: 100%;
+   font: inherit;
+   vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+   display: block;
+}
+body {
+   line-height: 1;
+    color: #333;
+}
+ol, ul {
+   list-style: none;
+}
+blockquote, q {
+   quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+   content: '';
+   content: none;
+}
+table {
+   border-collapse: collapse;
+   border-spacing: 0;
+}
+a{color: #333;}
+
+/* ----------- */
+.wrap{max-width: 1400px; min-width: 1140px; margin: 0 auto;}
+.box_wrap{display: flex; width: 100%; max-width: 100%; margin: 80px auto; border: 1px solid #ddd; padding: 30px;  box-sizing: border-box;}
+.profile{width: 28%; margin-right: 50px;}
+.profile .photo{width: 380px; height: 380px; margin-bottom: 30px; border: 1px solid #ddd;}
+.profile .photo img{width: 100%;}
+.profile .info p{margin-bottom: 15px; font-size: 1.2em;}
+.recommend{width: 70%;}
+.recommend .tit{margin-bottom: 20px; font-size: 1.6em;}
+.recommend .feeling{margin-bottom: 30px;}
+.recommend .rec_book{}
+.recommend .rec_book .book_list{display: flex; justify-content: space-between;}
+.recommend .book_list .item{position: relative; width: 25%; height: 300px; margin-left: 20px; padding: 25px; text-align: center; border: 1px solid #ddd; box-sizing: border-box;}
+.recommend .book_list .item a{width: 100%; height: 100%;}
+.recommend .book_list .item:first-child{margin-left: 0px;}
+.recommend .book_list .item .book_img{position: absolute; left: 0; bottom: 65px; width: 100%;}
+.recommend .book_list .item .book_img img{width: 125px; max-width: 125px; border: 1px solid #777;}
+.recommend .book_list .item .book_info{position: absolute; left: 0; bottom: 25px; margin-top: 15px; width: 100%;}
+
+@media(max-width:1400px) {
+    .wrap{padding: 0 3%; box-sizing: border-box;}
+}
